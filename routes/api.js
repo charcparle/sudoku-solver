@@ -8,6 +8,8 @@ module.exports = function (app) {
 
   app.route('/api/check')
     .post((req, res) => {
+      puzzleStr = req.body
+      if (solver.validate(puzzleStr)
 
     });
     
