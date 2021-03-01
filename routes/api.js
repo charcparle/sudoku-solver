@@ -54,7 +54,7 @@ module.exports = function(app) {
         res.json({ "error": "Puzzle cannot be solved" });
       } else {
         console.log(result);
-        res.json(result);
+        res.json({"solution": result});
       }
     });
 };

@@ -21,7 +21,7 @@ class SudokuSolver {
     } else {
       let curRow = puzzleString.slice(row * 9, row * 9 + 9);
       //console.log(`curRow: ${curRow}`);
-      if (curRow.includes(value*1)) {
+      if (curRow.includes(value.toString())) {
         return false;
       } else {
         return true;
@@ -36,7 +36,7 @@ class SudokuSolver {
     } else {
       for (let i = 0; i < 9; i++) {
         let curPlace = puzzleString[i*9 + column]
-        if (curPlace == value*1) return false;
+        if (curPlace == value.toString()) return false;
       }
       return true;
     }
@@ -61,9 +61,9 @@ class SudokuSolver {
         return false;
       }
     })
-    console.log(`regArr: ${regArr}`)
+    //console.log(`regArr: ${regArr}`)
 
-    if (regArr.includes(value*1)) {
+    if (regArr.includes(value.toString())) {
       return false;
     } else {
       return true;
@@ -77,23 +77,25 @@ class SudokuSolver {
     } else {
       let place = puzzleString.indexOf('.');
       console.log(`place: ${place}`)
+      let result = null;
       for (let i=1;i<=9;i++){
         let row = Math.floor(place/9);
         let col = place%9;
-        console.log(`row: ${row}, col: ${col}`)
+        //console.log(`row: ${row}, col: ${col}`)
         let nextStr = puzzleString.slice(0,place).concat(i,puzzleString.slice(place+1,));
         let n = i.toString();
-        console.log(n);
+        //console.log(n);
         let checked = this.checkRowPlacement(puzzleString,row,col,n)
-                      && this.checkRowPlacement(puzzleString,row,col,n)
+                      && this.checkColPlacement(puzzleString,row,col,n)
                       && this.checkRegionPlacement(puzzleString,row,col,n)
-        console.log(`checkRegionPlacement: ${this.checkRegionPlacement(puzzleString,row,col,n)}`)
-        console.log(`checked: ${checked}`)
+        //console.log(`checkRegionPlacement: ${this.checkRegionPlacement(puzzleString,row,col,n)}`)
+        //console.log(`checked: ${checked}`)
         if (checked) {
           console.log(`nextStr: ${nextStr}`)
-          return this.solve(nextStr);
+          result = this.solve(nextStr);
+          if (result!=null) return result;
         }
-        console.log(i)
+        //console.log(i)
       }
       
       return null
