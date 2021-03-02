@@ -25,6 +25,12 @@ app.route('/')
 //For FCC testing purposes
 fccTestingRoutes(app);
 
+// Request Logger
+app.use((req, res, next) => {
+  console.log(req.method + " " + req.path + " - " + req.ip);
+  next();
+})
+
 // User routes
 apiRoutes(app);
     

@@ -2,10 +2,10 @@ class SudokuSolver {
 
   validate(puzzleString) {
     let rtn = {};
-    let regex = /[1-9\.]/
+    let regex = /[^1-9\.]/
     if (puzzleString.length != 81) {
       rtn = { "error": "Expected puzzle to be 81 characters long" };
-    } else if (!regex.test(puzzleString)) {
+    } else if (regex.test(puzzleString)) {
       rtn = { "error": "Invalid characters in puzzle" };
     } else {
       rtn = 'validated'
@@ -76,7 +76,7 @@ class SudokuSolver {
       return puzzleString;
     } else {
       let place = puzzleString.indexOf('.');
-      console.log(`place: ${place}`)
+      //console.log(`place: ${place}`)
       let result = null;
       for (let i=1;i<=9;i++){
         let row = Math.floor(place/9);
@@ -91,7 +91,7 @@ class SudokuSolver {
         //console.log(`checkRegionPlacement: ${this.checkRegionPlacement(puzzleString,row,col,n)}`)
         //console.log(`checked: ${checked}`)
         if (checked) {
-          console.log(`nextStr: ${nextStr}`)
+          //console.log(`nextStr: ${nextStr}`)
           result = this.solve(nextStr);
           if (result!=null) return result;
         }

@@ -8,11 +8,16 @@ module.exports = function(app) {
 
   app.route('/api/check')
     .post((req, res) => {
-      let puzzleStr = req.body.puzzle;
-      let coor = req.body.coordinate.toLowerCase();
-      let val = req.body.value;
-      console.log(puzzleStr, coor, val);
-
+      let puzzleStr, coor, val = "";
+      if (req.body.puzzle==undefined || req.body.coordinate==undefined || req.body.value==undefined) {
+        res.json({ "error": "Required field(s) missing" });
+        return
+      } else {
+        puzzleStr = req.body.puzzle;
+        coor = req.body.coordinate.toLowerCase();
+        val = req.body.value;
+        console.log(puzzleStr, coor, val);
+      }
       let row = coor.charCodeAt(0)-97;
       let col = coor[1]-1;
       console.log(`row: ${row}, col: ${col}`)
@@ -48,13 +53,19 @@ module.exports = function(app) {
   app.route('/api/solve')
     .post((req, res) => {
       let puzzleStr = req.body.puzzle
-      console.log(`puzzleStr: ${puzzleStr}`)
-      let result = solver.solve(puzzleStr);
-      if (result==null){
-        res.json({ "error": "Puzzle cannot be solved" });
+      console.log(`puzzleStr: ${puzzleStr}`);      
+      if(puzzleStr==undefined){
+        res.json({ error: 'Required field missing' });
+      } else if (solver.validate(puzzleStr) != 'validated') {
+        res.json(solver.validate(puzzleStr));
       } else {
-        console.log(result);
-        res.json({"solution": result});
+        let result = solver.solve(puzzleStr);
+        if (result==null){
+          res.json({ "error": "Puzzle cannot be solved" });
+        } else {
+          console.log(result);
+          res.json({"solution": result});
+        }
       }
     });
 };
